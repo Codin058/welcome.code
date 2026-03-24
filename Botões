@@ -30,7 +30,7 @@ def resposta_botao(call: types.CallbackQuery):
         botao_criancas = types.InlineKeyboardButton('Crianças', callback_data='vacina_criancas')
         botao_adultos = types.InlineKeyboardButton('Adultos', callback_data='vacina_adultos')
         botao_idosos = types.InlineKeyboardButton('Idosos', callback_data='vacina_idosos')
-        botao_voltar = types.InlineKeyboardButton('⬅️ Voltar', callback_data='voltar_menu')
+        botao_voltar = types.InlineKeyboardButton('Voltar', callback_data='voltar_menu')
 
         markup.add(botao_criancas, botao_adultos, botao_idosos, botao_voltar)
 
@@ -44,21 +44,21 @@ def resposta_botao(call: types.CallbackQuery):
     # SUBMENU VACINAS
     elif call.data == 'vacina_criancas':
         bot.send_message(call.message.chat.id, '''
-        👶 Ao nascer:
+        Ao nascer:
         Vacina Neonat B (01/01 a 15/01)
         Vacina BCG-Plus (01/01 a 15/01)
 
-        🍼 2 meses:
+        2 meses:
         Vacina Pentavalente-X (10/02 a 25/02)
         Vacina PolioSafe (VIP-X) (10/02 a 25/02)
         Vacina Pneumo-13X (10/02 a 25/02)
 
-        👶 4 meses:
+        4 meses:
         2ª dose Pentavalente-X (10/04 a 25/04)
         2ª dose PolioSafe (VIP-X) (10/04 a 25/04)
         2ª dose Pneumo-13X (10/04 a 25/04)
 
-        🧑‍⚕️ 9–10 anos:
+        9–10 anos:
         Vacina HPV-Next (01/08 a 15/08)
         Vacina Meningo B-X (01/09 a 15/09)''')
 
