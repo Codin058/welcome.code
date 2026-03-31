@@ -87,7 +87,7 @@ O desafio do produto consiste em desenvolver um bot interativo que, ao ser acion
       <td>Marcos</td>
       <td>Desenvolvedor</td>
       <td><a href="https://github.com/marcosgalvaov"><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"></a></td>
-      <td><a href="www.linkedin.com/in/marcos-guilherme-galvão-615a253bb"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></a></td>
+      <td><a href="https://www.linkedin.com/in/marcos-guilherme-galv%C3%A3o-615a253bb/"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></a></td>
     </tr>
     <tr>
       <td>Ana Paula Ramos</td>
