@@ -62,8 +62,8 @@ O desafio do produto consiste em desenvolver um bot interativo que, ao ser acion
     <tr>
       <td>Eloá</td>
       <td>Scrum Master</td>
-      <td><a href="github.com/eloagaldino"><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"></a></td>
-      <td><a href=" https://br.linkedin.com/in/elo%C3%A1-galdino-samaniego-487b1a376"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></a></td>
+      <td><a href="https://github.com/eloagaldino"><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"></a></td>
+      <td><a href="https://www.linkedin.com/in/elo%C3%A1-galdino-samaniego-487b1a376/"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></a></td>
     </tr>
     <tr>
       <td>João Vitor</td>
