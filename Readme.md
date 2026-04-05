@@ -27,7 +27,7 @@ O desafio do produto consiste em desenvolver um bot interativo que, ao ser acion
 
 | Sprint | Período | Link para Documentação | Link para Vídeo no Youtube do Incremento Entregue |
 | ----------- | ----------- | ----------- | ----------- |
-| 1 | 16/03/2026 a 05/04/2026 | - | - |
+| 1 | 16/03/2026 a 05/04/2026 | https://apiequipequet.atlassian.net/jira/software/projects/EQ/summary?atlOrigin=eyJpIjoiMzYyMTdjMDkyYzQzNDg3ZWE0YzNhMTllMGI2ZDRhNDYiLCJwIjoiaiJ9 | - |
 | 2 | - | - | - |
 | 3 | - | - | - |
 
