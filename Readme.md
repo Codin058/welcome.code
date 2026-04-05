@@ -20,7 +20,16 @@ O desafio do produto consiste em desenvolver um bot interativo que, ao ser acion
 | Baixo | Como uma pessoa com dificuldade de locomoção, desejo ter conhecimento das alternativas para vacinação em casa | 1 | 3 |
 
 ## **Cronograma de evolução do Projeto**
+
 <img width="2294" height="555" alt="Captura de tela 2026-04-05 170151" src="https://github.com/user-attachments/assets/24a7f6c8-a9e1-4d83-b744-6747f4c461f2" />
+
+## **Tabela descritiva das Sprints**
+
+| Sprint | Período | Link para Documentação | Link para Vídeo no Youtube do Incremento Entregue |
+| ----------- | ----------- | ----------- | ----------- |
+| 1 | 16/03/2026 a 05/04/2026 | - | - |
+| 2 | - | - | - |
+| 3 | - | - | - |
 
 ## **Tecnologias utilizadas**
 
