@@ -73,7 +73,8 @@ Para rodar este projeto, pode-se escolher entre o ambiente de nuvem ou local:
 **Para execução local:**
  - Conta no Google Colab (<a href="https://colab.research.google.com/">Site</a>)
  - Editor de código de sua preferência (VS Code por exemplo)
- **Para execução em nuvem**
+   
+**Para execução em nuvem**
  - Conta no Railway (<a href="https://railway.com">Site</a>)
 
 ### **1. Criar um bot no Telegram**
@@ -101,6 +102,7 @@ Ou baixar o ZIP contendo os arquivos (melhor para Ampiente Local:
 [Arquivo ZIP](https://github.com/turbodeliveryapi/welcome.code/archive/refs/heads/deploy.zip)
 ```
  Crie uma pasta para armazenar os arquivos.
+
 
 ### **3. Configuração do Ambiente**
 
@@ -135,7 +137,7 @@ Para fins de instrução, usaremos o VC Code como editor de código. Mas em caso
   TELEGRAM_TOKEN=insira_seu_token
   ```
 - Execute o **arquivo main.py**. Pelo Play ou pelo terminal:
-  ````bash
+  ```bash
   python main.py
   ```
 - No fim do teminal, deve ser devolvido:
