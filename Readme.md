@@ -6,6 +6,8 @@ Olá! Esse é um projeto inicialiazado por alunos do 1º semestre do curso de An
 
 O desafio do produto consiste em desenvolver um bot interativo que, ao ser acionado pelo usuário, apresente de forma clara diferentes opções de faixas etárias por meio de botões, ao selecionar uma dessas opções, o bot deve mandar arquivo em PDF contendo informações detalhadas sobre as vacinas recomendadas para a faixa etária escolhida, trazendo organização e fácil acesso ao conteúdo relevante para cada perfil de usuário.
 
+---
+
 ## **Backlog do produto**
 
 | Rank | User story | Estimativa | Sprint |
@@ -41,6 +43,8 @@ O desafio do produto consiste em desenvolver um bot interativo que, ao ser acion
  <a href="https://railway.com"><img src="https://img.shields.io/badge/Railway-131415?style=for-the-badge&logo=railway&logoColor=white"></a>
 </h4>
 
+---
+
 ## **Manual do usuário**
 
 ### **Pré-requisitos**
@@ -54,6 +58,110 @@ O desafio do produto consiste em desenvolver um bot interativo que, ao ser acion
 - Escolha a faixa etária que desejar
 - Bot estregará PDF com vacinas que a faixa etária deve tomar
 
+---
+
+## **Manual de Instalação**
+
+### **Pré-requisitos**
+- Git (<a href="https://git-scm.com/install/">Download</a>)
+- Python 3.10+ (<a href="https://www.python.org/downloads/">Download</a>)
+- Bot Telegram (<a href="https://desktop.telegram.org">Download</a>)
+
+### **Ambientes**
+Para rodar este projeto, pode-se escolher entre o ambiente de nuvem ou local:
+
+- **Para execução local:**
+  Conta no Google Colab (<a href="https://colab.research.google.com/">Site</a>)
+  Editor de código de sua preferência (VS Code por exemplo)
+- **Para execução em nuvem**
+- Conta no Railway (<a href="https://railway.com">Site</a>)
+
+### **1. Criar um bot no Telegram**
+- Já com sua conta no Telegram, procure por @BOtFather.
+- Em sua conversa, mande o comando /newbot:
+  ```bash
+  /newbot
+  ```
+- Escolha um nome e username para seu bot.
+- Guarde o API TOKEN. Essa chave que permite que o bot receba as instruções dos arquivos.
+- Caso o TOKEN fique público, o bot pode sofrer alterações de qualquer pessoa.
+
+
+### **2. Baixar os arquivos do branch deploy**
+O branch deploy é a versão estável e otimizada para o funcionamento do bot.
+
+Pode-se clonar apenas o branch deploy (melhor para Ambiente em Nuvem):
+```bash
+git clone -b deploy [https://github.com/turbodeliveryapi/welcome.code](https://github.com/turbodeliveryapi/welcome.code)
+ Uma alternativa, é vc criar um fork apenas desse branch.
+```
+ Também pode-se fazer um fork apenas do branch deploy.
+Ou baixar o ZIP contendo os arquivos (melhor para Ampiente Local:
+```md
+[Arquivo ZIP](https://github.com/turbodeliveryapi/welcome.code/archive/refs/heads/deploy.zip)
+```
+ Crie uma pasta para armazenar os arquivos.
+
+### **3. Configuração do Ambiente**
+
+#### **3.1. Ambiente Local**
+Ideal para testes rápidos e desenvolvimento. O bot só funcionará enquanto o seu computador (ou a aba do navegador) estiver com o código rodando.
+
+**Instruções**
+##### **Google Colab**
+- Acesse o Google Colab e crie um **Novo notebook**.
+- Na primeira célula, digite e rode (apertar o ícone de Play) para intalar a biblioteca da linguagem Python.
+  ```python
+  !pip install python-telegram-bot
+  ```
+- Depois, cole os códigos dos arquivos em novas células.
+- Para inserir o TOKEN  de forma segura, no menu lateral esquerdo, clique no ícone de Chave (Secrets).
+ - Adicione um novo segredo com o nome TELEGRAM_TOKEN e cole o seu TOKEN do BotFather no valor.
+ - Ative a opção "Notebook access"
+ - Para rodar, clique novamente no Play. Caso necessário, aperte p Play de todas as células.
+ - O bot ficara ativo enquanto a célula continuar rodando.
+##### **Editor de Código**
+Para fins de instrução, usaremos o VC Code como editor de código. Mas em caso de preferência de outro, siga os mesmos passos no editor de sua escolha.
+- Abra a pasta do seu projeto no VS Code.
+- Depois, crie um novo terminal. Pode-se usar o atalho **Ctrl+Shift+'**.
+- No terminal, instale as bibliotecas python-telegram-bot e python-dotenv:
+  ```bash
+  pip install python-telegram-bot python-dotenv
+  ```
+- Após instalar as bibliotecas, crie um arquivo .env na mesma pasta e coloque o TOKEN:
+  ```Plaintxt
+  TELEGRAM_TOKEN=insira_seu_token
+  ```
+- Execute o **arquivo main.py**. Pelo Play ou pelo terminal:
+  ````bash
+  python main.py
+  ```
+- No fim do teminal, deve ser devolvido:
+  ```
+  🤖 Healthybot em operação!
+  ```
+
+#### **3.2. Ambiente em Nuvem**
+O ambiente em nuvem permite que o bot sempre fique ativo independentemente de onde o código estiver hospedado. Sua limitação é que é necessário sempre subir no repositório as alterações feitas para que ele possa executar-las .
+
+**Instruções**
+- Para o ambiente em nuvem, deve-se clonar o branch deploy ou criar um repositório pessoal e fazer upload dos arquivos. Caso tenha optado pelo frok, isso não é preciso.
+- Depois vincular seu Github com o Railway
+- Para executar o código, precisa-se criar um projeto e vinculado com o repositório onde está os arquivos do bot
+   - Certifique-se que o repositório é seu, caso contrário, ele não aparecerá na lista de repositórios para criar o projeto
+- Após terminar de criar o projeto, clique nele para abrir o Menu e entre na aba Variáveis
+- Nela, clique em Add+ e dê o nome **TELEGRAM_TOKEN** e insira em seu valor o TOKEN do seu bot
+- Por fim, faça o Deploy do projeto
+- Para se certificar que o bot já está funcionando, na projeto depe aparecer **Online**
+
+### **4. Iniciando o bot**
+- Para iniciar o bot, basta manda no campo de mensagem  o comando /start:
+  ```bash
+  /start
+  ```
+- O bot deve responder as interações seguintes.
+  
+---
 
 ## **Equipe**
 
