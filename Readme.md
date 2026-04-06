@@ -70,11 +70,11 @@ O desafio do produto consiste em desenvolver um bot interativo que, ao ser acion
 ### **Ambientes**
 Para rodar este projeto, pode-se escolher entre o ambiente de nuvem ou local:
 
-- **Para execução local:**
-  Conta no Google Colab (<a href="https://colab.research.google.com/">Site</a>)
-  Editor de código de sua preferência (VS Code por exemplo)
-- **Para execução em nuvem**
-- Conta no Railway (<a href="https://railway.com">Site</a>)
+**Para execução local:**
+ - Conta no Google Colab (<a href="https://colab.research.google.com/">Site</a>)
+ - Editor de código de sua preferência (VS Code por exemplo)
+ **Para execução em nuvem**
+ - Conta no Railway (<a href="https://railway.com">Site</a>)
 
 ### **1. Criar um bot no Telegram**
 - Já com sua conta no Telegram, procure por @BOtFather.
@@ -108,6 +108,7 @@ Ou baixar o ZIP contendo os arquivos (melhor para Ampiente Local:
 Ideal para testes rápidos e desenvolvimento. O bot só funcionará enquanto o seu computador (ou a aba do navegador) estiver com o código rodando.
 
 **Instruções**
+
 ##### **Google Colab**
 - Acesse o Google Colab e crie um **Novo notebook**.
 - Na primeira célula, digite e rode (apertar o ícone de Play) para intalar a biblioteca da linguagem Python.
@@ -120,6 +121,7 @@ Ideal para testes rápidos e desenvolvimento. O bot só funcionará enquanto o s
  - Ative a opção "Notebook access"
  - Para rodar, clique novamente no Play. Caso necessário, aperte p Play de todas as células.
  - O bot ficara ativo enquanto a célula continuar rodando.
+
 ##### **Editor de Código**
 Para fins de instrução, usaremos o VC Code como editor de código. Mas em caso de preferência de outro, siga os mesmos passos no editor de sua escolha.
 - Abra a pasta do seu projeto no VS Code.
@@ -142,7 +144,7 @@ Para fins de instrução, usaremos o VC Code como editor de código. Mas em caso
   ```
 
 #### **3.2. Ambiente em Nuvem**
-O ambiente em nuvem permite que o bot sempre fique ativo independentemente de onde o código estiver hospedado. Sua limitação é que é necessário sempre subir no repositório as alterações feitas para que ele possa executar-las .
+O ambiente em nuvem permite que o bot sempre fique ativo independentemente de onde o código estiver hospedado. Sua limitação é que é necessário sempre subir no repositório as alterações feitas para que ele possa executar-las.
 
 **Instruções**
 - Para o ambiente em nuvem, deve-se clonar o branch deploy ou criar um repositório pessoal e fazer upload dos arquivos. Caso tenha optado pelo frok, isso não é preciso.
