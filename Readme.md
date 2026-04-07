@@ -29,7 +29,7 @@ O desafio do produto consiste em desenvolver um bot interativo que, ao ser acion
 
 | Sprint | Período | Link para Documentação | Link para Vídeo no Youtube do Incremento Entregue |
 | ----------- | ----------- | ----------- | ----------- |
-| 1 | 16/03/2026 a 05/04/2026 | https://apiequipequet.atlassian.net/jira/software/projects/EQ/summary?atlOrigin=eyJpIjoiMzYyMTdjMDkyYzQzNDg3ZWE0YzNhMTllMGI2ZDRhNDYiLCJwIjoiaiJ9 | - |
+| 1 | 16/03/2026 a 05/04/2026 | <h4 align="center"> <a href="https://apiequipequet.atlassian.net/jira/software/projects/EQ/summary?atlOrigin=eyJpIjoiMzYyMTdjMDkyYzQzNDg3ZWE0YzNhMTllMGI2ZDRhNDYiLCJwIjoiaiJ9"><img src="https://img.shields.io/badge/Jira-0052CC?style=for-the-badge&logo=jira&logoColor=white"/></a>  </h4> | - |
 | 2 | - | - | - |
 | 3 | - | - | - |
 
