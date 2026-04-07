@@ -1,10 +1,11 @@
+
 from telebot import types
 
 def menu_principal():
     markup = types.InlineKeyboardMarkup(row_width=2)
     
-    btn_sobre = types.InlineKeyboardButton('ℹ️ Sobre o Bot', callback_data='botao_sobre')
     btn_vacinas = types.InlineKeyboardButton('💉 Consultar Vacinas', callback_data='botao_vacinas')
+    btn_sobre = types.InlineKeyboardButton('ℹ️ Sobre o Bot', callback_data='botao_sobre')
     
     markup.add(btn_vacinas,btn_sobre)
     return markup

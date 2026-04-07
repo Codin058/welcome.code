@@ -8,6 +8,7 @@ load_dotenv()
 TOKEN = os.getenv('TELEGRAM_TOKEN')
 bot = telebot.TeleBot(TOKEN)
 
+
 @bot.message_handler(commands=['start'])
 def start(msg):
     bot.send_message(
@@ -19,7 +20,8 @@ def start(msg):
 
 @bot.callback_query_handler(func=lambda call: True)
 def resposta_botao(call):
-    
+    bot.answer_callback_query(call.id)
+
     # Botão SOBRE o projeto
     if call.data == 'botao_sobre':
         texto_sobre = (
@@ -65,13 +67,7 @@ def resposta_botao(call):
 
     # Voltar para o Menu Principal
     elif call.data == 'voltar_menu':
-        texto_inicio = '✨ 🤖 *Bem-vindo ao HealthyBot!* ✨'
-        bot.send_message(
-            call.message.chat.id,
-            texto_inicio,
-            parse_mode='Markdown',
-            reply_markup=botoes.menu_principal()
-        )
+        start(call.message)
 
 print("🤖 Healthybot em operação!")
 bot.infinity_polling()
