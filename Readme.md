@@ -4,7 +4,9 @@
 Olá! Esse é um projeto inicialiazado por alunos do 1º semestre do curso de Análise e Desenvolvimento de Sistemas, da Fatec de São José dos Campos. O objetivo desse projeto é construir um BOT no Telegram que responda à pergunta de diversos públicos a respeito de vacinas e saúde, baseado em dados do site oficial do Governo do Brasil. Esses são os primeiros comandos injetados no BOT para ações básicas e cruciais para a entrega da primeira SPRINT dessa API. Feito no Google Colab com ajuda do site 'pytelegrambotapi'.
 
 ## **Platypus Dev**
-<img width="https://github.com/turbodeliveryapi/welcome.code/blob/main/Logo%20da%20Equipe"/>
+<p align="center">
+      <img src="https://github.com/turbodeliveryapi/welcome.code/blob/main/Logo%20da%20Equipe" width="200">
+      <h2 align="center"> Platypus Dev</h2>
 
 ## **Desafio**
 
