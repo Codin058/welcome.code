@@ -11,16 +11,16 @@ O desafio do produto consiste em desenvolver um bot interativo que, ao ser acion
 
 ## **Backlog do produto**
 
-| Rank | User story | Estimativa | Sprint |
-| ----------- | ----------- | ----------- | ----------- |
-| Muito alto | Como um idoso, desejo me integrar mais sobre minhas vacinas  necessárias para melhorar minha qualidade de vida de acordo com minha idade | 1 | 1 |
-| Alto | Como uma mãe, desejo saber quais vacinas meu recém nascido precisa tomar para o desenvolvimento de imunidade | 1 | 1 |
-| Alto | Como um enfermeiro, desejo me integrar sobre as vacinas necessárias dos meus pacientes para ter mais conhecimento | 2 | 1 |
-| Alto | Como um neto, desejo saber sobre as vacinas pendentes do meu avô para cuidar melhor dele | 1 | 1 |
-| Muito alto | Como uma pessoa que se preocupa com a saúde, desejo me integrar mais sobre minhas vacinas pendentes e necessárias para melhorar minha qualidade de vida de acordo com minha idade | 2 | 2 |
-| Baixo | Como um cidadão, desejo ter conhecimento sobre os postos de saúde de minha cidade | 2 | 3 |
-| Muito alto | Como um homem muito alérgico à certas medicações , desejo ter conhecimento das vacinas própias para minha comorbidade e seus efeitos colaterais. | 1 | 3 |
-| Baixo | Como uma pessoa com dificuldade de locomoção, desejo ter conhecimento das alternativas para vacinação em casa | 1 | 3 |
+| Rank | Prioridade | User story | Estimativa | Sprint |
+| ----------- | ----------- | ----------- | ----------- | ----------- |
+| 1 | Muito alto | Como um idoso, desejo me integrar mais sobre minhas vacinas  necessárias para melhorar minha qualidade de vida de acordo com minha idade | 20 | 1 |
+| 2 | Alto | Como uma mãe, desejo saber quais vacinas meu recém nascido precisa tomar para o desenvolvimento de imunidade | 13 | 1 |
+| 3 | Alto | Como um enfermeiro, desejo me integrar sobre as vacinas necessárias dos meus pacientes para ter mais conhecimento | 13 | 1 |
+| 4 | Alto | Como um neto, desejo saber sobre as vacinas pendentes do meu avô para cuidar melhor dele | 13 | 1 |
+| 5 | Muito alto | Como uma pessoa que se preocupa com a saúde, desejo me integrar mais sobre minhas vacinas pendentes e necessárias para melhorar minha qualidade de vida de acordo com minha idade | 20 | 2 |
+| 6 | Baixo | Como um cidadão, desejo ter conhecimento sobre os postos de saúde de minha cidade | 13 | 3 |
+| 7 | Muito alto | Como um homem muito alérgico à certas medicações , desejo ter conhecimento das vacinas própias para minha comorbidade e seus efeitos colaterais. | 20 | 3 |
+| 8 | Baixo | Como uma pessoa com dificuldade de locomoção, desejo ter conhecimento das alternativas para vacinação em casa | 8 | 3 |
 
 ## **Cronograma de evolução do Projeto**
 
