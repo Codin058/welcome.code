@@ -1,15 +1,21 @@
-
+#Aqui se importa o módulo types, que contem as estruturas de botões
 from telebot import types
 
+#Função para exibir o Menu Principal
 def menu_principal():
+    #Aqui se cria um "teclado" com 2 botões por linha
     markup = types.InlineKeyboardMarkup(row_width=2)
     
+    #Faz com que cada botão tenha texto visível e callback_data
+    #Callback_data é o que o bot recebe
     btn_vacinas = types.InlineKeyboardButton('💉 Consultar Vacinas', callback_data='botao_vacinas')
     btn_sobre = types.InlineKeyboardButton('ℹ️ Sobre o Bot', callback_data='botao_sobre')
     
+    #Faz os botões aparecerem na mesma linha
     markup.add(btn_vacinas,btn_sobre)
     return markup
 
+#Função para exibir o Menu de Vacinas
 def menu_vacinas():
     markup = types.InlineKeyboardMarkup(row_width=2)
     
@@ -26,6 +32,7 @@ def menu_vacinas():
     markup.add(btn_voltar)            
     return markup
 
+#Função para exibir o Menu de Retorno
 def menu_retorno():
     markup = types.InlineKeyboardMarkup()
     btn_novaConsulta = types.InlineKeyboardButton("🔍 Nova Consulta", callback_data="botao_vacinas")
