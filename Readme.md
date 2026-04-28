@@ -31,10 +31,12 @@ O desafio do produto consiste em desenvolver um bot interativo que, ao ser acion
 * Entendimento claro da tarefa
 
 ## DoD - Definition of Done
-Código implementado
-Critérios de aceitação atendidos
-Testado manualmente
-Código organizado
+* Código implementado
+* Critérios de aceitação atendidos
+* Testado manualmente
+* Código organizado
+
+## 
 
 ## **Cronograma das Sprints**
 
