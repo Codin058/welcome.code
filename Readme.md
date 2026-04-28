@@ -25,6 +25,22 @@ O desafio do produto consiste em desenvolver um bot interativo que, ao ser acion
 | 7 | Muito alto | Como um homem muito alérgico à certas medicações , desejo ter conhecimento das vacinas própias para minha comorbidade e seus efeitos colaterais. | 20 | 3 |
 | 8 | Baixo | Como uma pessoa com dificuldade de locomoção, desejo ter conhecimento das alternativas para vacinação em casa | 8 | 3 |
 
+## **MVP**
+
+## Backlog Sprint 1
+
+| Rank | Prioridade | Tarefa / User Story | Estimativa | Conclusão |
+|:---:|:---|:---:|:---:|:---:|
+| 01 | Muito Alto | Como um idoso, desejo me integrar mais sobre minhas vacinas  necessárias para melhorar minha qualidade de vida de acordo com minha idade | 20 | Entregue |
+| 2 | Alto | Como uma mãe, desejo saber quais vacinas meu recém nascido precisa tomar para o desenvolvimento de imunidade | 13 | Entregue |
+| 3 | Alto | Como um enfermeiro, desejo me integrar sobre as vacinas necessárias dos meus pacientes para ter mais conhecimento | 13 | Entregue |
+| 4 | Alto | Como um neto, desejo saber sobre as vacinas pendentes do meu avô para cuidar melhor dele | 13 | Entregue |
+
+## Backlog Sprint 2
+| 5 | Muito alto | Como uma pessoa que se preocupa com a saúde, desejo me integrar mais sobre minhas vacinas pendentes e necessárias para melhorar minha qualidade de vida de acordo com minha idade | 20 | 2 | Entregue |
+
+
+
 ## **Cronograma de evolução do Projeto**
 
 <img width="2294" height="555" alt="Captura de tela 2026-04-05 170151" src="https://github.com/user-attachments/assets/24a7f6c8-a9e1-4d83-b744-6747f4c461f2" />
