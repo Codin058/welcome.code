@@ -27,20 +27,6 @@ O desafio do produto consiste em desenvolver um bot interativo que, ao ser acion
 
 ## **MVP**
 
-## Backlog Sprint 1
-
-| Rank | Prioridade | Tarefa / User Story | Estimativa | Conclusão |
-|:---:|:---|:---:|:---:|:---:|
-| 01 | Muito Alto | Como um idoso, desejo me integrar mais sobre minhas vacinas  necessárias para melhorar minha qualidade de vida de acordo com minha idade | 20 | Entregue |
-| 2 | Alto | Como uma mãe, desejo saber quais vacinas meu recém nascido precisa tomar para o desenvolvimento de imunidade | 13 | Entregue |
-| 3 | Alto | Como um enfermeiro, desejo me integrar sobre as vacinas necessárias dos meus pacientes para ter mais conhecimento | 13 | Entregue |
-| 4 | Alto | Como um neto, desejo saber sobre as vacinas pendentes do meu avô para cuidar melhor dele | 13 | Entregue |
-
-## Backlog Sprint 2
-| Rank | Prioridade | Tarefa / User Story | Estimativa | Conclusão |
-|:---:|:---|:---:|:---:|:---:|
-| 5 | Muito alto | Como uma pessoa que se preocupa com a saúde, desejo me integrar mais sobre minhas vacinas pendentes e necessárias para melhorar minha qualidade de vida de acordo com minha idade | 20 | 2 | Entregue |
-
 
 
 ## **Cronograma de evolução do Projeto**
