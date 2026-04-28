@@ -37,6 +37,8 @@ O desafio do produto consiste em desenvolver um bot interativo que, ao ser acion
 | 4 | Alto | Como um neto, desejo saber sobre as vacinas pendentes do meu avô para cuidar melhor dele | 13 | Entregue |
 
 ## Backlog Sprint 2
+| Rank | Prioridade | Tarefa / User Story | Estimativa | Conclusão |
+|:---:|:---|:---:|:---:|:---:|
 | 5 | Muito alto | Como uma pessoa que se preocupa com a saúde, desejo me integrar mais sobre minhas vacinas pendentes e necessárias para melhorar minha qualidade de vida de acordo com minha idade | 20 | 2 | Entregue |
 
 
