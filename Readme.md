@@ -25,17 +25,24 @@ O desafio do produto consiste em desenvolver um bot interativo que, ao ser acion
 | 7 | Muito alto | Como um homem muito alérgico à certas medicações , desejo ter conhecimento das vacinas própias para minha comorbidade e seus efeitos colaterais. | 20 | 3 |
 | 8 | Baixo | Como uma pessoa com dificuldade de locomoção, desejo ter conhecimento das alternativas para vacinação em casa | 8 | 3 |
 
-## **Cronograma de evolução do Projeto**
+## DoR - Definition of Ready
+* User Stories com critérios de aceitação
+* Subtarefas divididas
+* Entendimento claro da tarefa
 
-<img width="2294" height="555" alt="Captura de tela 2026-04-05 170151" src="https://github.com/user-attachments/assets/24a7f6c8-a9e1-4d83-b744-6747f4c461f2" />
+## DoD - Definition of Done
+Código implementado
+Critérios de aceitação atendidos
+Testado manualmente
+Código organizado
 
-## **Tabela descritiva das Sprints**
+## **Cronograma das Sprints**
 
-| Sprint | Período | Link para Documentação | Link para Vídeo no Youtube do Incremento Entregue |
-| ----------- | ----------- | ----------- | ----------- |
-| 1 | 16/03/2026 a 05/04/2026 | <h4 align="center"> <a href="https://apiequipequet.atlassian.net/jira/software/projects/EQ/summary?atlOrigin=eyJpIjoiMzYyMTdjMDkyYzQzNDg3ZWE0YzNhMTllMGI2ZDRhNDYiLCJwIjoiaiJ9"><img src="https://img.shields.io/badge/Jira-0052CC?style=for-the-badge&logo=jira&logoColor=white"/></a>  </h4> | <h4 align="center"> <a href="https://youtube.com/shorts/D4LPyznxHVM?si=k8T46wLOupl0c_CJ"><img src="https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white"/></a>  </h4> |
-| 2 | - | - | - |
-| 3 | - | - | - |
+| Sprint | Período | MVP | Link para Documentação | Link para Vídeo no Youtube do Incremento Entregue |
+| ----------- | ----------- | ----------- | ----------- | ----------- |
+| 1 | 16/03/2026 a 05/04/2026 | [Sprint 1](./mvp/sprint-01/README.md) | <h4 align="center"> <a href="https://apiequipequet.atlassian.net/jira/software/projects/EQ/summary?atlOrigin=eyJpIjoiMzYyMTdjMDkyYzQzNDg3ZWE0YzNhMTllMGI2ZDRhNDYiLCJwIjoiaiJ9"><img src="https://img.shields.io/badge/Jira-0052CC?style=for-the-badge&logo=jira&logoColor=white"/></a>  </h4> | <h4 align="center"> <a href="https://youtube.com/shorts/D4LPyznxHVM?si=k8T46wLOupl0c_CJ"><img src="https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white"/></a>  </h4> |
+| 2 | 12/04/2026 a 03/05/2026 | [Sprint 2](./mvp/sprint-02/README.md) | <h4 align="center"> <a href="..."><img src="https://img.shields.io/badge/Jira-0052CC?style=for-the-badge&logo=jira&logoColor=white"/></a>  </h4>  | <h4 align="center"> <a href="..."><img src="https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white"/></a>  </h4> |
+| 3 | - | - | - | - |
 
 ## **Tecnologias utilizadas**
 
@@ -101,7 +108,7 @@ git clone -b deploy [https://github.com/turbodeliveryapi/welcome.code](https://g
  Uma alternativa, é vc criar um fork apenas desse branch.
 ```
  Também pode-se fazer um fork apenas do branch deploy.
-Ou baixar o ZIP contendo os arquivos (melhor para Ampiente Local:
+Ou baixar o ZIP contendo os arquivos (melhor para Ambiente Local):
 ```md
 [Arquivo ZIP](https://github.com/turbodeliveryapi/welcome.code/archive/refs/heads/deploy.zip)
 ```
