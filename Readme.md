@@ -25,10 +25,12 @@ O desafio do produto consiste em desenvolver um bot interativo que, ao ser acion
 | 7 | Muito alto | Como um homem muito alérgico à certas medicações , desejo ter conhecimento das vacinas própias para minha comorbidade e seus efeitos colaterais. | 20 | 3 |
 | 8 | Baixo | Como uma pessoa com dificuldade de locomoção, desejo ter conhecimento das alternativas para vacinação em casa | 8 | 3 |
 
+
 ## DoR - Definition of Ready
 * User Stories com critérios de aceitação
 * Subtarefas divididas
 * Entendimento claro da tarefa
+
 
 ## DoD - Definition of Done
 * Código implementado
