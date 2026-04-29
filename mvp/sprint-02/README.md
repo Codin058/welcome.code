@@ -4,7 +4,7 @@
 Chat BOT devolver as possíveis vacinas pendentes e as próximas do usuário através de um cadastro personalizado focando na idade do mesmo.
 
 ## 💡 Solução
-**Preencher**
+Entregar as informações retiradas do scraping do site do governo em escrito para o usuário de acordo com seu cadastro.
 
 ## 👤 User Story
 | Rank | Prioridade | User story | Estimativa | Sprint |
