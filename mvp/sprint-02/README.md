@@ -1,7 +1,7 @@
 # 📦 MVP — Sprint 2
 
 ## 🎯 Objetivo
-**Preencher**
+Chat BOT devolver as possíveis vacinas pendentes e as próximas do usuário através de um cadastro personalizado focando na idade do mesmo.
 
 ## 💡 Solução
 **Preencher**
