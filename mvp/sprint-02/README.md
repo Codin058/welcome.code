@@ -29,7 +29,7 @@
 
 ## Critérios de Aceitação
 - Saudações iniciais e explicação da função do BOT
-- O usuário faz o cadastro do seu nome idade
+- O usuário faz o cadastro do seu nome e idade
 - o BOT devolve suas vacinas pendentes de acordo com faixas etárias diferentes
 - Chat Bot com melhor desenvolvimento
 
