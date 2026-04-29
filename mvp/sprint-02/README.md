@@ -28,7 +28,10 @@
 | Entendimento | Há entendimento técnico suficiente para iniciar |
 
 ## Critérios de Aceitação
-- **Preencher**
+- Saudações iniciais e explicação da função do BOT
+- O usuário faz o cadastro do seu nome idade
+- o BOT devolve suas vacinas pendentes de acordo com faixas etárias diferentes
+- Chat Bot com melhor desenvolvimento
 
 ## DoD (Definition of Done)
 | Critério | Descrição |
