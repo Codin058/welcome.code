@@ -1,91 +1,92 @@
-#Bibliotecas necessárias
-import os
 import telebot
+import scraping.scraper_pdf as scraper_pdf
 from dotenv import load_dotenv
-import scraper
-import botoes 
 
-#Aqui é puxada a variável com o valor do Token
+from formulario import (
+    iniciar_conversa,
+    processar_resposta,
+    processar_gestante,
+    processar_tipo_pessoa,
+    processar_bebe,
+    usuarios
+)
+
 load_dotenv()
 TOKEN = os.getenv('TELEGRAM_TOKEN')
 bot = telebot.TeleBot(TOKEN)
 
-#Chama a função /start
-@bot.message_handler(commands=['start'])
-#Função start
-def start(msg):
-    #Mensagem da função
-    bot.send_message(
-        msg.chat.id, 
-        '✨ 🤖 *Bem-vindo ao HealthyBot!* ✨', 
-        parse_mode='Markdown',
-        reply_markup=botoes.menu_principal()
-    )
+saudacoes = ['oi', 'olá', 'ola', 'eae', 'opa', 'bom dia', 'boa tarde', 'boa noite']
 
-#Handler de botões, qualquer botão apertado passa por aqui
-@bot.callback_query_handler(func=lambda call: True)
-#Aqui, call contém qual botão foi clicado e de onde veio
-def resposta_botao(call):
-    #Aqui remove o "loading" do botão
+
+@bot.message_handler(commands=['start'])
+def start(msg):
+    iniciar_conversa(bot, msg.chat.id)
+
+
+@bot.message_handler(func=lambda msg: True)
+def responder(msg):
+    if not msg.text:
+        return  # evita erro com mídia
+
+    texto = msg.text.lower().strip()
+
+    if any(s in texto for s in saudacoes):
+        iniciar_conversa(bot, msg.chat.id)
+        return
+
+    processar_resposta(bot, msg)
+
+
+@bot.callback_query_handler(func=lambda call: call.data in ["user", "outra_pessoa"])
+def tipo_pessoa(call):
+    bot.answer_callback_query(call.id)
+    processar_tipo_pessoa(bot, call)
+
+
+@bot.callback_query_handler(func=lambda call: call.data.startswith(("bebe", "nao_bebe")))
+def bebe(call):
+    bot.answer_callback_query(call.id)
+    processar_bebe(bot, call)
+
+
+@bot.callback_query_handler(func=lambda call: call.data.startswith(("gestante", "nao_gestante")))
+def resposta_gestante(call):
+    bot.answer_callback_query(call.id)
+    processar_gestante(bot, call)
+
+
+@bot.callback_query_handler(func=lambda call: call.data == "mais_info")
+def mais_info(call):
     bot.answer_callback_query(call.id)
 
-    #Botão SOBRE O PROJETO
-    if call.data == 'botao_sobre':
-        #Texto que explica o BOT
-        texto_sobre = (
-            "🤖 *HealthyBot* \n\n"
-            "O seu Assistente Virtual para saúde e prevenção! 💉\n\n"
-            "Consulta realizada através do site oficial do *Ministério da Saúde:* https://www.gov.br/saude/pt-br/vacinacao"
-            "\n🇧🇷\n\n"
-            "✅ *Informação oficial na palma da sua mão!*"
+    user_id = call.message.chat.id
+
+    if user_id not in usuarios:
+        return
+
+    faixa = usuarios[user_id].get('faixa')
+
+    if not faixa:
+        bot.send_message(user_id, "❌ Não consegui identificar a faixa")
+        return
+
+    arquivo = scraper_pdf.busca_calendario(faixa)
+
+    if arquivo:
+        bot.send_document(
+            user_id,
+            arquivo
         )
-        #Envia uma mensagem no Telegram
-        bot.send_message(
-            #Manda a mensagem para a mesma conversa onde o botão foi clicado
-            call.message.chat.id,
-            #Puxa o conteúdo da mensagem
-            texto_sobre,
-            #Faz interpretar o texto como Markdown
-            parse_mode='Markdown',
-            #Puxa a função de um botão
-            reply_markup=botoes.menu_principal()
-        )
+    else:
+        bot.send_message(user_id, "😳 Esssa faixa etária não possue calendário")
 
-    #Para escolher a FAIXA ETÁRIA
-    elif call.data == 'botao_vacinas':
-        texto_botao_vacina = '📅 *Escolha uma faixa etária:*'
-        bot.send_message(
-            call.message.chat.id,
-            texto_botao_vacina ,
-            parse_mode='Markdown',
-            reply_markup=botoes.menu_vacinas()
-        )
+    bot.send_message(
+        user_id,
+        "Para fazer mais consultas, é só mandar um oi💙"
+    )
 
-    #Envia o ARQUIVO PDF
-    elif call.data in ['gestante', 'crianca', 'adolescente', 'adulto', 'idoso']:
-        bot.answer_callback_query(call.id, "Preparando arquivo...")
-        
-        #Usa o valor do call.data e passa para a função
-        arquivo = scraper.busca_calendario(call.data)
-        
-        if arquivo:
-            #Envia o arquivo se encontrado
-            bot.send_document(
-                call.message.chat.id, 
-                arquivo, 
-                caption=f"📄 *CALENDÁRIO {call.data.upper()}*\n\nEste é o arquivo oficial (2025/2026) do *HealthyBot*. Toque para abrir.",
-                parse_mode='Markdown',
-                reply_markup=botoes.menu_retorno()
-            )
-        else:
-            #Mensagem de erro se não encontra
-            bot.send_message(call.message.chat.id, "❌ Erro: Arquivo não disponível.")
+    usuarios.pop(user_id)
 
-    #Voltar para o Menu Principal
-    elif call.data == 'voltar_menu':
-        start(call.message)
 
-#Mensagem de que o BOT está em execução
-print("🤖 Healthybot em operação!")
-#executa o BOT
+print("🤖 HealthyBot em operação!")
 bot.infinity_polling()
