@@ -1,71 +1,46 @@
 import pandas as pd
 import os
+import logging
+
+logger = logging.getLogger(__name__)
+
+# Cache em memória — evita reler o Excel a cada consulta
+# Começa como None e é preenchido na primeira chamada de busca_vacinas()
+_cache = None
 
 
 def busca_vacinas():
+    global _cache
+
+    # Se já foi carregado antes, retorna direto sem reler o arquivo
+    if _cache is not None:
+        return _cache
+
+    # Monta o caminho do Excel relativo a este arquivo
+    # Assim funciona independente de onde o projeto estiver no computador
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     arquivo = os.path.join(BASE_DIR, 'calendario_vacinacao.xlsx')
-    
 
+    if not os.path.exists(arquivo):
+        raise FileNotFoundError(f"Arquivo não encontrado: {arquivo}")
+
+    logger.info("Carregando calendario_vacinacao.xlsx...")
     df = pd.read_excel(arquivo, engine='openpyxl')
-    df = df.rename(columns=lambda x: x.strip())
 
-    # ========================
-    # FILTROS (SEU CÓDIGO ORIGINAL)
-    # ========================
-    flt_gravidez = df[df['Fases'] == 'Gravidez']
-    flt_semana28 = df[df['Fases'] == '28° semana gestacional']
-    flt_nascer = df[df['Fases'] == 'Ao nascer']
-    flt_2meses = df[df['Fases'] == '2 meses']
-    flt_3meses = df[df['Fases'] == '3 meses']
-    flt_4meses = df[df['Fases'] == '4 meses']
-    flt_5meses = df[df['Fases'] == '5 meses']
-    flt_6meses = df[df['Fases'] == '6 meses']
-    flt_excessao = df[df['Fases'] == '6 a 8 meses']
-    flt_7meses = df[df['Fases'] == '7 meses']
-    flt_9meses = df[df['Fases'] == '9 meses']
-    flt_12meses = df[df['Fases'] == '12 meses']
-    flt_15meses = df[df['Fases'] == '15 meses']
-    flt_4anos = df[df['Fases'] == '4 anos']
-    flt_9_4anos = df[df['Fases'] == '9 a 14 anos']
-    flt_10_14anos = df[df['Fases'] == '10 a 14 anos']
-    flt_11_14anos = df[df['Fases'] == '11 a 14 anos']
-    flt_10_24anos = df[df['Fases'] == '10 a 24 anos']
-    flt_25_59anos = df[df['Fases'] == '25 a 59 anos']
-    flt_60anos = df[df['Fases'] == 'A partir de 60 anos']
+    # Limpa espaços invisíveis nos nomes das colunas e nos valores da coluna Fases
+    # Sem isso, buscas como df['Fases'] == 'Gravidez' podem falhar por espaço extra
+    df.columns = df.columns.str.strip()
+    df['Fases'] = df['Fases'].astype(str).str.strip()
 
-    # ========================
-    # NOVO: DICIONÁRIO DE ACESSO
-    # ========================
-    dados = {
-        "Gravidez": flt_gravidez,
-        "28° semana gestacional": flt_semana28,
-        "Ao nascer": flt_nascer,
-        "2 meses": flt_2meses,
-        "3 meses": flt_3meses,
-        "4 meses": flt_4meses,
-        "5 meses": flt_5meses,
-        "6 meses": flt_6meses,
-        "6 a 8 meses": flt_excessao,
-        "7 meses": flt_7meses,
-        "9 meses": flt_9meses,
-        "12 meses": flt_12meses,
-        "15 meses": flt_15meses,
-        "4 anos": flt_4anos,
-        "9 a 14 anos": flt_9_4anos,
-        "10 a 14 anos": flt_10_14anos,
-        "11 a 14 anos": flt_11_14anos,
-        "10 a 24 anos": flt_10_24anos,
-        "25 a 59 anos": flt_25_59anos,
-        "A partir de 60 anos": flt_60anos
-    }
+    # Agrupa as linhas por fase e salva no cache como dicionário
+    # Chave: nome da fase | Valor: DataFrame com as vacinas daquela fase
+    _cache = {fase: grupo for fase, grupo in df.groupby('Fases')}
 
-    return dados
+    logger.info(f"Cache carregado: {len(_cache)} fases")
+    return _cache
 
 
-# ========================
-# FUNÇÃO EXTRA (FACILITA SUA VIDA)
-# ========================
 def pegar_por_fase(fase):
-    dados = busca_vacinas()
-    return dados.get(fase)
+    # Atalho para buscar as vacinas de uma fase específica
+    # Retorna None se a fase não existir no calendário
+    return busca_vacinas().get(fase)

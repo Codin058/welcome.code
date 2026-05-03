@@ -1,265 +1,307 @@
 import botoes_formulario
 import scraping.scraper_vacinas as vacinas_scraper
 import pandas as pd
+import threading
+import logging
 
+logger = logging.getLogger(__name__)
+
+# Dicionário que guarda os dados de cada usuário durante a conversa
+# Chave: user_id do Telegram | Valor: dicionário com etapa, nome, idade, etc.
 usuarios = {}
 
-
-# ========================
-# CONVERSÃO DE FASE
-# ========================
-def fase_por_meses(meses):
-    if meses == 0:
-        return 'Ao nascer'
-    elif meses == 2:
-        return '2 meses'
-    elif meses == 3:
-        return '3 meses'
-    elif meses == 4:
-        return '4 meses'
-    elif meses == 5:
-        return '5 meses'
-    elif meses == 6:
-        return '6 meses'
-    elif 6 < meses <= 8:
-        return '6 a 8 meses'
-    elif meses == 9:
-        return '9 meses'
-    elif meses == 12:
-        return '12 meses'
-    elif meses == 15:
-        return '15 meses'
-    else:
-        return None
+# Lock para evitar conflito quando múltiplos usuários acessam ao mesmo tempo
+_usuarios_lock = threading.Lock()
 
 
-def fase_por_idade(idade):
-    if idade == 4:
-        return '4 anos'
-    elif 9 <= idade <= 14:
-        return '9 a 14 anos'
-    elif 10 <= idade <= 24:
-        return '10 a 24 anos'
-    elif 25 <= idade <= 59:
-        return '25 a 59 anos'
-    elif idade >= 60:
-        return 'A partir de 60 anos'
-    else:
-        return None
-
-
-def faixa_mais_informacoes(idade):
+def determinar_faixa_etaria(idade):
+    # Classifica a idade em faixas para buscar as vacinas certas
     if idade < 10:
         return 'crianca'
-    elif idade < 18:
+    elif idade < 20:
         return 'adolescente'
-    elif idade <= 59:
-        return 'adulto_intermediario'
+    elif idade < 60:
+        return 'adulto'
     else:
         return 'idoso'
 
 
-# ========================
-# UTIL
-# ========================
-def gerar_texto(df):
-    if df is None or df.empty:
-        return "❌ Nenhuma informação encontrada."
-    return df.to_string(index=False)
+def fase_por_meses(meses):
+    # Mapeia os meses do bebê para as fases do calendário oficial
+    MAPA_MESES = {
+        0: 'Ao nascer', 2: '2 meses', 3: '3 meses', 4: '4 meses', 5: '5 meses',
+        6: '6 meses', 9: '9 meses', 12: '12 meses', 15: '15 meses', 24: '24 meses'
+    }
+    # Faixa especial: 7 e 8 meses não existem no calendário, mas caem aqui
+    if 6 < meses <= 8:
+        return '6 a 8 meses'
+    return MAPA_MESES.get(meses)
 
 
-# ========================
-# INÍCIO
-# ========================
+def fase_por_idade(idade):
+    # Retorna a fase do calendário com base na idade em anos
+    # Cada tupla é (limite_de_idade, nome_da_fase)
+    MAPA_IDADES = [
+        (4, '4 anos'),
+        (14, '9 a 14 anos'),
+        (24, '10 a 24 anos'),
+        (59, '25 a 59 anos'),
+        (float('inf'), 'A partir de 60 anos')
+    ]
+    for limite, fase in MAPA_IDADES:
+        if idade <= limite:
+            return fase
+    return None
+
+
+# ====
+# Funções de acesso ao dicionário de usuários (thread-safe)
+# ====
+
+def atualizar_usuario(user_id, dados):
+    # Cria o usuário se não existir, depois atualiza os campos recebidos
+    with _usuarios_lock:
+        if user_id not in usuarios:
+            usuarios[user_id] = {}
+        usuarios[user_id].update(dados)
+
+def obter_usuario(user_id):
+    # Retorna uma cópia dos dados para não expor o dicionário original
+    with _usuarios_lock:
+        return usuarios.get(user_id, {}).copy()
+
+def remover_usuario(user_id):
+    # Limpa a sessão do usuário ao final da conversa
+    with _usuarios_lock:
+        usuarios.pop(user_id, None)
+
+
+# ====
+# Início da conversa
+# ====
+
 def iniciar_conversa(bot, user_id):
-    usuarios[user_id] = {'etapa': 'nome'}
-
-    bot.send_message(
-        user_id,
+    # Define a etapa inicial e manda a mensagem de boas-vindas com o botão "Saiba Mais"
+    atualizar_usuario(user_id, {'etapa': 'nome'})
+    texto = (
         '✨ 🤖 *Bem-vindo ao HealthyBot!* ✨\n\n'
         "👋 Oi! Eu sou o *HealthyBot* 😊\n\n"
-        "Vou te ajudar a encontrar seu calendário de vacinação 💉\n\n"
-        "Pra começar, qual é o seu nome?",
-        parse_mode='Markdown'
+        "Vou te ajudar a encontrar seu Calendário de Vacinação 💉\n\n"
+        "Para começar, qual é o seu nome?\n\n"
     )
+    bot.send_message(user_id, texto, parse_mode='Markdown', reply_markup=botoes_formulario.saiba_mais())
 
 
-# ========================
-# RESPOSTAS TEXTO
-# ========================
+# ====
+# Processamento das mensagens de texto
+# ====
+
 def processar_resposta(bot, msg):
     user_id = msg.chat.id
     texto = msg.text.strip()
+    u = obter_usuario(user_id)
 
-    if user_id not in usuarios:
+    # Se o usuário não tem sessão ativa, pede para começar pelo "Oi"
+    if not u:
+        bot.send_message(user_id, "👋 Digite 'Oi' para iniciar uma consulta.")
         return
 
-    etapa = usuarios[user_id]['etapa']
+    etapa = u.get('etapa')
 
-    # NOME
     if etapa == 'nome':
-        if not texto:
-            bot.send_message(user_id, "❗ Me diga seu nome 😊")
-            return
-
-        usuarios[user_id]['nome'] = texto
-        usuarios[user_id]['etapa'] = 'tipo_pessoa'
-
+        # Salva o nome e avança para a escolha de para quem é a consulta
+        atualizar_usuario(user_id, {'nome': texto.title(), 'etapa': 'tipo_pessoa'})
         bot.send_message(
             user_id,
-            "📌 Para quem você está consultando a vacina?",
+            f"📌 Legal {texto.title()}, para quem é a consulta?",
             reply_markup=botoes_formulario.tipo_pessoa()
         )
-        return
 
-    # IDADE NORMAL
+    # Nas etapas abaixo o usuário deve usar os botões, não digitar texto
+    elif etapa == 'tipo_pessoa':
+        bot.send_message(user_id, "👆 Use os botões para responder.",
+            reply_markup=botoes_formulario.tipo_pessoa())
+
+    elif etapa == 'bebe_check':
+        bot.send_message(user_id, "👆 Use os botões para responder.",
+            reply_markup=botoes_formulario.bebe())
+
+    elif etapa == 'gestante':
+        bot.send_message(user_id, "👆 Use os botões para responder.",
+            reply_markup=botoes_formulario.gestante())
+
     elif etapa == 'idade':
         if not texto.isdigit():
-            bot.send_message(user_id, "❗ Idade precisa ser um número")
+            bot.send_message(user_id, "❗ Por favor, digite apenas números.")
             return
 
         idade = int(texto)
 
-        if idade <= 0 or idade > 120:
-            bot.send_message(user_id, "❗ Idade inválida")
+        if idade > 150 or idade < 0:
+            bot.send_message(user_id, "❗ Digite uma idade válida (0 a 150 anos).")
             return
 
-        usuarios[user_id]['idade'] = idade
-        faixa = faixa_mais_informacoes(idade)
+        # Bebês de 1 ou 2 anos: converte para meses e já busca como bebê
+        if idade <= 2:
+            meses = 12 if idade == 1 else (24 if idade == 2 else 0)
+            atualizar_usuario(user_id, {'meses': meses})
+            _enviar_em_thread(bot, user_id, 'bebe')
+        else:
+            faixa = determinar_faixa_etaria(idade)
+            atualizar_usuario(user_id, {'idade': idade})
 
-        if faixa == 'adulto_intermediario':
-            usuarios[user_id]['etapa'] = 'gestante'
+            # Adultos têm uma pergunta extra sobre gestação
+            if faixa == 'adulto':
+                atualizar_usuario(user_id, {'etapa': 'gestante'})
+                bot.send_message(user_id, "📌 A pessoa está gestante ou planejando gestação?",
+                    reply_markup=botoes_formulario.gestante())
+            else:
+                _enviar_em_thread(bot, user_id, faixa)
 
-            bot.send_message(
-                user_id,
-                "📌 Você é gestante?",
-                reply_markup=botoes_formulario.gestante()
-            )
-            return
-
-        enviar_para_servico(bot, user_id, faixa)
-        return
-
-    # IDADE EM MESES
     elif etapa == 'idade_meses':
         if not texto.isdigit():
-            bot.send_message(user_id, "❗ Digite um número válido")
+            bot.send_message(user_id, "❗ Por favor, digite apenas números.")
             return
 
         meses = int(texto)
 
-        if meses < 0 or meses > 60:
-            bot.send_message(user_id, "❗ Valor inválido")
+        if meses < 0 or meses > 24:
+            bot.send_message(user_id,
+                "❗ Digite uma idade entre 0 e 24 meses.\n"
+                "Para crianças acima de 2 anos, digite 'Oi' e reinicie informando a idade em anos.")
             return
 
-        usuarios[user_id]['meses'] = meses
-        enviar_para_servico(bot, user_id, 'bebe')
-        return
+        atualizar_usuario(user_id, {'meses': meses})
+        _enviar_em_thread(bot, user_id, 'bebe')
 
 
-# ========================
-# CALLBACKS
-# ========================
+# ====
+# Processamento dos botões (callbacks)
+# ====
+
 def processar_tipo_pessoa(bot, call):
-    user_id = call.message.chat.id
-
+    uid = call.message.chat.id
     if call.data == "user":
-        usuarios[user_id]['etapa'] = 'idade'
-        bot.send_message(user_id, "Me diga a idade:")
-
-    elif call.data == "outra_pessoa":
-        usuarios[user_id]['etapa'] = 'bebe_check'
-        bot.send_message(
-            user_id,
-            "👶 É um bebê?",
-            reply_markup=botoes_formulario.bebe()
-        )
-
+        # Consulta para o próprio usuário: pede a idade diretamente
+        atualizar_usuario(uid, {'etapa': 'idade'})
+        bot.send_message(uid, "Certo! Me diga a sua idade (em anos):")
+    else:
+        # Consulta para outra pessoa: verifica primeiro se é bebê
+        atualizar_usuario(uid, {'etapa': 'bebe_check'})
+        bot.send_message(uid, "👶 É um bebê (até 2 anos)?", reply_markup=botoes_formulario.bebe())
 
 def processar_bebe(bot, call):
-    user_id = call.message.chat.id
-
+    uid = call.message.chat.id
     if call.data == "bebe":
-        usuarios[user_id]['etapa'] = 'idade_meses'
-        bot.send_message(user_id, "Quantos meses?")
+        # Bebê confirmado: pede a idade em meses
+        atualizar_usuario(uid, {'etapa': 'idade_meses'})
+        bot.send_message(uid, "Quantos meses o bebê tem? (0 a 24 meses)")
     else:
-        usuarios[user_id]['etapa'] = 'idade'
-        bot.send_message(user_id, "Me diga a idade:")
-
+        # Não é bebê: pede a idade em anos normalmente
+        atualizar_usuario(uid, {'etapa': 'idade'})
+        bot.send_message(uid, "Qual a idade da pessoa (em anos)?")
 
 def processar_gestante(bot, call):
-    user_id = call.message.chat.id
-
-    if call.data == "gestante":
-        faixa = "gestante"
-    else:
-        faixa = "adulto"
-
-    enviar_para_servico(bot, user_id, faixa)
+    # Define a faixa como gestante ou adulto comum e já busca as vacinas
+    faixa = "gestante" if call.data == "gestante" else "adulto"
+    _enviar_em_thread(bot, call.message.chat.id, faixa)
 
 
-# ========================
-# ENVIO
-# ========================
+# ====
+# Busca e envio das vacinas
+# ====
+
+def _enviar_em_thread(bot, user_id, faixa):
+    # Roda a busca em uma thread separada para não travar o bot
+    t = threading.Thread(target=enviar_para_servico, args=(bot, user_id, faixa), daemon=True)
+    t.start()
+
 def enviar_para_servico(bot, user_id, faixa):
-    nome = usuarios[user_id]['nome']
+    try:
+        u = obter_usuario(user_id)
+        nome = u.get('nome', 'Usuário')
 
-    bot.send_message(
-        user_id,
-        f"Perfeito, {nome}! 👍\n\nBuscando informações..."
-    )
+        bot.send_message(user_id, f"Perfeito, {nome}! 👍\n\n⏳ Buscando vacinas recomendadas...")
 
-    usuarios[user_id]['faixa'] = faixa
+        # Salva a faixa final (bebe vira crianca para o PDF depois)
+        faixa_final = 'crianca' if faixa == 'bebe' else faixa
+        atualizar_usuario(user_id, {'faixa': faixa_final})
 
-    # definir fases
-    if faixa == "gestante":
-        fases = ["Gravidez", "28° semana gestacional"]
+        # Define quais fases do calendário buscar com base no perfil
+        if faixa == "gestante":
+            fases = ["Gravidez", "28° semana gestacional"]
 
-    elif faixa == "bebe":
-        meses = usuarios[user_id].get('meses')
-        fase = fase_por_meses(meses)
-        fases = [fase] if fase else []
+        elif faixa == "bebe":
+            meses = u.get('meses', 0)
+            fase = fase_por_meses(meses)
 
-    else:
-        idade = usuarios[user_id].get('idade')
-        fase = fase_por_idade(idade)
-        fases = [fase] if fase else []
+            # Se não há fase exata, tenta a mais próxima disponível
+            if not fase:
+                fases_proximas = {
+                    1: '2 meses', 7: '6 meses', 8: '9 meses',
+                    10: '9 meses', 11: '12 meses', 13: '12 meses',
+                    14: '15 meses', 16: '15 meses', 17: '15 meses',
+                    18: '15 meses', 19: '15 meses', 20: '15 meses',
+                    21: '24 meses', 22: '24 meses', 23: '24 meses'
+                }
+                fase = fases_proximas.get(meses)
+                if fase:
+                    bot.send_message(user_id,
+                        f"ℹ️ Mostrando vacinas para a fase mais próxima: *{fase}*",
+                        parse_mode='Markdown')
+            fases = [fase] if fase else []
 
-    dados = vacinas_scraper.busca_vacinas()
+        else:
+            idade = u.get('idade', 0)
+            fase = fase_por_idade(idade)
+            fases = [fase] if fase else []
 
-    # DEBUG (se precisar)
-    # print("FASES:", fases)
-    # print("CHAVES:", list(dados.keys()))
+        # Se não conseguiu determinar nenhuma fase, oferece o calendário completo
+        if not fases or not fases[0]:
+            bot.send_message(user_id,
+                "⚠️ Não consegui determinar a fase no calendário oficial.\n\n"
+                "💡 Acesse o calendário completo:",
+                reply_markup=botoes_formulario.mais_informacoes())
+            return
 
-    resultados = []
+        # Carrega os dados do Excel (já em cache após a primeira leitura)
+        dados = vacinas_scraper.busca_vacinas()
+        if not dados:
+            bot.send_message(user_id, "❌ Não foi possível acessar o sistema de vacinas.")
+            return
 
-    for f in fases:
-        if not f:
-            continue
-
-        f_limpo = f.strip().lower()
-
-        for chave, df in dados.items():
-            if chave.strip().lower() == f_limpo:
-                if df is not None and not df.empty:
+        # Filtra os dados pelas fases encontradas, ignorando diferenças de maiúsculas/espaços
+        resultados = []
+        for fase_busca in fases:
+            if not fase_busca:
+                continue
+            fase_norm = fase_busca.strip().lower()
+            for chave, df in dados.items():
+                if chave.strip().lower() == fase_norm and df is not None and not df.empty:
                     resultados.append(df)
 
-    if resultados:
-        resultado_final = pd.concat(resultados)
-        texto = gerar_texto(resultado_final) + "\nSe precisar de mais informações, clique no botão do calendário⬇️"
+        if resultados:
+            df_final = pd.concat(resultados)
+            linhas = []
 
-        bot.send_message(
-            user_id,
-            texto,
-            reply_markup=botoes_formulario.mais_informacoes()
-        )
-        bot.send_message(
-            user_id,
-            "Para fazer mais consultas, é só mandar um oi💙",
-        )
+            # Monta a mensagem formatada com cada vacina encontrada
+            for _, row in df_final.iterrows():
+                vacina = str(row.get('Vacina', '')).strip()
+                dose = str(row.get('DOSE', '')).strip()
+                evita = str(row.get('Evita', '')).strip()
+                linhas.append(f"💉 *{vacina}*\n📋 Dose: {dose}\n🛡️ Evita: {evita}")
 
-    else:
-        bot.send_message(
-            user_id,
-            "Não há nenhuma vacina para essa faixa etária"
-        )
+            texto_vacinas = "\n\n".join(linhas)
+            mensagem = f"💉 *Vacinas recomendadas:*\n\n{texto_vacinas}\n\n💡 *Deseja o Calendário Oficial completo?*"
+            bot.send_message(user_id, mensagem, parse_mode='Markdown',
+                reply_markup=botoes_formulario.mais_informacoes())
+        else:
+            # Nenhuma vacina encontrada para a fase: oferece o PDF como alternativa
+            bot.send_message(user_id,
+                "⚠️ Não encontrei vacinas específicas para esta fase.\n\n"
+                "📄 Consulte o calendário oficial completo:",
+                reply_markup=botoes_formulario.mais_informacoes())
+
+    except Exception as e:
+        logger.error(f"Erro em enviar_para_servico (user {user_id}): {e}", exc_info=True)
+        bot.send_message(user_id, "😓 Ops! Algo deu errado.\n\nDigite 'Oi' para recomeçar.")
